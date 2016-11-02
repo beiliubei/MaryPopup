@@ -406,7 +406,7 @@ public class MaryPopup implements View.OnClickListener {
         }
 
         try {
-            close(true);
+            return close(true);
             if (blackOverlay != null) {
                 activityView.removeView(blackOverlay);
                 blackOverlay = null;
@@ -419,10 +419,8 @@ public class MaryPopup implements View.OnClickListener {
             e.printStackTrace();
         }
         handleClick = false;
+        return false;
     }
-
-    return false;
-}
 
     @Override
     public void onClick(View v) {
