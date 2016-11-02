@@ -169,8 +169,8 @@ public class MaryPopup implements View.OnClickListener {
                 blackOverlay.setBackgroundColor(blackOverlayColor);
                 activityView.addView(blackOverlay, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
                 DurX.putOn(blackOverlay)
-                    .animate()
-                    .alpha(0f, 1f);
+                        .animate()
+                        .alpha(0f, 1f);
                 blackOverlay.setOnClickListener(this);
             }
             {
@@ -191,7 +191,7 @@ public class MaryPopup implements View.OnClickListener {
                         popupView.setLayoutParams(layoutParams);
                     }
 
-                    if(popupView instanceof DraggableView) {
+                    if (popupView instanceof DraggableView) {
                         DraggableView draggableView = (DraggableView) popupView;
 
                         draggableView.setDraggable(false);
@@ -237,64 +237,64 @@ public class MaryPopup implements View.OnClickListener {
                     }
 
                     DurX.putOn(popupView)
-                        .pivotX(0f)
-                        .pivotY(0f)
-                        .invisible()
-                        .waitForSize(new Listeners.Size() {
-                            @Override
-                            public void onSize(DurX durX) {
-                                if (viewOrigin != null) {
-                                    differenceScaleX = viewOrigin.getWidth() * 1.0f / popupView.getWidth();
-                                    differenceScaleY = viewOrigin.getHeight() * 1.0f / popupView.getHeight();
+                            .pivotX(0f)
+                            .pivotY(0f)
+                            .invisible()
+                            .waitForSize(new Listeners.Size() {
+                                @Override
+                                public void onSize(DurX durX) {
+                                    if (viewOrigin != null) {
+                                        differenceScaleX = viewOrigin.getWidth() * 1.0f / popupView.getWidth();
+                                        differenceScaleY = viewOrigin.getHeight() * 1.0f / popupView.getHeight();
 
-                                    float translationX;
-                                    float translationY;
+                                        float translationX;
+                                        float translationY;
 
-                                    if (center) {
-                                        differenceTranslationX = getX(viewOrigin);
-                                        differenceTranslationY = getY(viewOrigin);
-                                        translationX = activityView.getWidth() / 2 - popupView.getWidth() / 2;
-                                        translationY = activityView.getHeight() / 2 - popupView.getHeight() / 2;
-                                    } else {
-                                        differenceTranslationX = getX(viewOrigin) - getX(popupView);
-                                        differenceTranslationY = getY(viewOrigin) - getY(popupView);
-                                        translationX = getX(viewOrigin) - (popupView.getWidth() - viewOrigin.getWidth()) / 2f;
-                                        translationY = getY(viewOrigin) - getStatusBarHeight();
+                                        if (center) {
+                                            differenceTranslationX = getX(viewOrigin);
+                                            differenceTranslationY = getY(viewOrigin);
+                                            translationX = activityView.getWidth() / 2 - popupView.getWidth() / 2;
+                                            translationY = activityView.getHeight() / 2 - popupView.getHeight() / 2;
+                                        } else {
+                                            differenceTranslationX = getX(viewOrigin) - getX(popupView);
+                                            differenceTranslationY = getY(viewOrigin) - getY(popupView);
+                                            translationX = getX(viewOrigin) - (popupView.getWidth() - viewOrigin.getWidth()) / 2f;
+                                            translationY = getY(viewOrigin) - getStatusBarHeight();
+                                        }
+
+                                        DurX.putOn(popupView)
+                                                .translationX(differenceTranslationX)
+                                                .translationY(differenceTranslationY)
+                                                .visible()
+
+                                                .animate()
+                                                .scaleX(differenceScaleX, 1f)
+                                                .scaleY(differenceScaleY, 1f)
+                                                .translationX(differenceTranslationX, translationX)
+                                                .translationY(differenceTranslationY, translationY)
+                                                .duration(openDuration)
+                                                .end(new Listeners.End() {
+                                                    @Override
+                                                    public void onEnd() {
+                                                        if (popupView instanceof DraggableView) {
+                                                            DraggableView draggableView = (DraggableView) popupView;
+                                                            draggableView.initOriginalViewPositions();
+                                                            draggableView.setDraggable(draggable);
+                                                        }
+                                                        blackOverlay.setClickable(true);
+                                                        handleClick = true;
+                                                    }
+                                                })
+                                                .pullOut()
+
+                                                .andPutOn(popupViewContent)
+                                                .visible()
+                                                .animate()
+                                                .startDelay(openDuration - 100)
+                                                .alpha(0f, 1f);
                                     }
-
-                                    DurX.putOn(popupView)
-                                        .translationX(differenceTranslationX)
-                                        .translationY(differenceTranslationY)
-                                        .visible()
-
-                                        .animate()
-                                        .scaleX(differenceScaleX, 1f)
-                                        .scaleY(differenceScaleY, 1f)
-                                        .translationX(differenceTranslationX, translationX)
-                                        .translationY(differenceTranslationY, translationY)
-                                        .duration(openDuration)
-                                        .end(new Listeners.End() {
-                                            @Override
-                                            public void onEnd() {
-                                                if (popupView instanceof DraggableView) {
-                                                    DraggableView draggableView = (DraggableView) popupView;
-                                                    draggableView.initOriginalViewPositions();
-                                                    draggableView.setDraggable(draggable);
-                                                }
-                                                blackOverlay.setClickable(true);
-                                                handleClick = true;
-                                            }
-                                        })
-                                        .pullOut()
-
-                                        .andPutOn(popupViewContent)
-                                        .visible()
-                                        .animate()
-                                        .startDelay(openDuration - 100)
-                                        .alpha(0f, 1f);
                                 }
-                            }
-                        });
+                            });
                     activityView.addView(popupView);
                 }
             }
@@ -373,39 +373,56 @@ public class MaryPopup implements View.OnClickListener {
                 translationY += ty;
 
                 DurX.putOn(popupViewContent)
-                    .animate()
-                    .alpha(0f)
-                    .duration(closeDuration)
+                        .animate()
+                        .alpha(0f)
+                        .duration(closeDuration)
 
-                    .andAnimate(popupView)
-                    .scaleX(scaleX)
-                    .scaleY(scaleY)
-                    .alpha(0f)
-                    .translationX(translationX)
-                    .translationY(translationY)
-                    .duration(closeDuration)
+                        .andAnimate(popupView)
+                        .scaleX(scaleX)
+                        .scaleY(scaleY)
+                        .alpha(0f)
+                        .translationX(translationX)
+                        .translationY(translationY)
+                        .duration(closeDuration)
 
-                    .andAnimate(blackOverlay)
-                    .alpha(0f)
-                    .duration(closeDuration)
-                    .end(clearListener)
+                        .andAnimate(blackOverlay)
+                        .alpha(0f)
+                        .duration(closeDuration)
+                        .end(clearListener)
                 ;
             } else {
                 DurX.putOn(blackOverlay)
-                    .animate()
-                    .alpha(0)
-                    .duration(closeDuration)
+                        .animate()
+                        .alpha(0)
+                        .duration(closeDuration)
 
-                    .thenAnimate(popupViewContent)
-                    .alpha(0)
-                    .duration(closeDuration)
-                    .end(clearListener);
+                        .thenAnimate(popupViewContent)
+                        .alpha(0)
+                        .duration(closeDuration)
+                        .end(clearListener);
             }
 
             return true;
         }
-        return false;
+
+        try {
+            close(true);
+            if (blackOverlay != null) {
+                activityView.removeView(blackOverlay);
+                blackOverlay = null;
+            }
+            if (popupView != null) {
+                activityView.removeView(popupView);
+                popupView = null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        handleClick = false;
     }
+
+    return false;
+}
 
     @Override
     public void onClick(View v) {
@@ -443,42 +460,42 @@ public class MaryPopup implements View.OnClickListener {
         return x;
     }
 
-    static class DraggableViewListener extends DraggableView.DraggableViewListenerAdapter {
+static class DraggableViewListener extends DraggableView.DraggableViewListenerAdapter {
 
-        WeakReference<MaryPopup> reference;
+    WeakReference<MaryPopup> reference;
 
-        public DraggableViewListener(MaryPopup popup) {
-            this.reference = new WeakReference<>(popup);
-        }
+    public DraggableViewListener(MaryPopup popup) {
+        this.reference = new WeakReference<>(popup);
+    }
 
-        @Override
-        public void onDrag(DraggableView draggableView, float percentX, float percentY) {
-            super.onDrag(draggableView, percentX, percentY);
+    @Override
+    public void onDrag(DraggableView draggableView, float percentX, float percentY) {
+        super.onDrag(draggableView, percentX, percentY);
 
-            MaryPopup popup = reference.get();
-            if (popup != null && !popup.isAnimating) {
-                float percent = 1f - Math.abs(percentY);
+        MaryPopup popup = reference.get();
+        if (popup != null && !popup.isAnimating) {
+            float percent = 1f - Math.abs(percentY);
 
-                if (popup.fadeOutDragging) {
-                    DurX.putOn(popup.popupView)
+            if (popup.fadeOutDragging) {
+                DurX.putOn(popup.popupView)
                         .alpha(percent);
-                }
+            }
 
-                if (popup.scaleDownDragging) {
-                    float scale = Math.max(0.75f, percent);
-                    DurX.putOn(popup.popupView)
+            if (popup.scaleDownDragging) {
+                float scale = Math.max(0.75f, percent);
+                DurX.putOn(popup.popupView)
                         .pivotX(0.5f)
                         .scale(scale);
-                }
-            }
-        }
-
-        @Override
-        public void onDraggedStarted(DraggableView draggableView, Direction direction) {
-            MaryPopup popup = reference.get();
-            if (popup != null) {
-                popup.close(false);
             }
         }
     }
+
+    @Override
+    public void onDraggedStarted(DraggableView draggableView, Direction direction) {
+        MaryPopup popup = reference.get();
+        if (popup != null) {
+            popup.close(false);
+        }
+    }
+}
 }
