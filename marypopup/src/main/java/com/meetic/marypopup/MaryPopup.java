@@ -404,21 +404,6 @@ public class MaryPopup implements View.OnClickListener {
 
             return true;
         }
-
-        try {
-            return close(true);
-            if (blackOverlay != null) {
-                activityView.removeView(blackOverlay);
-                blackOverlay = null;
-            }
-            if (popupView != null) {
-                activityView.removeView(popupView);
-                popupView = null;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        handleClick = false;
         return false;
     }
 
@@ -426,7 +411,21 @@ public class MaryPopup implements View.OnClickListener {
     public void onClick(View v) {
         if (cancellable && handleClick) {
             close(scaleDownCloseOnClick);
-        }
+            try {
+                close(true);
+                if (blackOverlay != null) {
+                    activityView.removeView(blackOverlay);
+                    blackOverlay = null;
+                }
+                if (popupView != null) {
+                    activityView.removeView(popupView);
+                    popupView = null;
+                }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                handleClick = false;
+            }
     }
 
     public MaryPopup center(boolean center) {
