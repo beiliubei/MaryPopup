@@ -421,11 +421,11 @@ public class MaryPopup implements View.OnClickListener {
                     activityView.removeView(popupView);
                     popupView = null;
                 }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                handleClick = false;
+            } catch (Exception e) {
+                e.printStackTrace();
             }
+            handleClick = false;
+        }
     }
 
     public MaryPopup center(boolean center) {
@@ -457,42 +457,42 @@ public class MaryPopup implements View.OnClickListener {
         return x;
     }
 
-static class DraggableViewListener extends DraggableView.DraggableViewListenerAdapter {
+    static class DraggableViewListener extends DraggableView.DraggableViewListenerAdapter {
 
-    WeakReference<MaryPopup> reference;
+        WeakReference<MaryPopup> reference;
 
-    public DraggableViewListener(MaryPopup popup) {
-        this.reference = new WeakReference<>(popup);
-    }
+        public DraggableViewListener(MaryPopup popup) {
+            this.reference = new WeakReference<>(popup);
+        }
 
-    @Override
-    public void onDrag(DraggableView draggableView, float percentX, float percentY) {
-        super.onDrag(draggableView, percentX, percentY);
+        @Override
+        public void onDrag(DraggableView draggableView, float percentX, float percentY) {
+            super.onDrag(draggableView, percentX, percentY);
 
-        MaryPopup popup = reference.get();
-        if (popup != null && !popup.isAnimating) {
-            float percent = 1f - Math.abs(percentY);
+            MaryPopup popup = reference.get();
+            if (popup != null && !popup.isAnimating) {
+                float percent = 1f - Math.abs(percentY);
 
-            if (popup.fadeOutDragging) {
-                DurX.putOn(popup.popupView)
-                        .alpha(percent);
+                if (popup.fadeOutDragging) {
+                    DurX.putOn(popup.popupView)
+                            .alpha(percent);
+                }
+
+                if (popup.scaleDownDragging) {
+                    float scale = Math.max(0.75f, percent);
+                    DurX.putOn(popup.popupView)
+                            .pivotX(0.5f)
+                            .scale(scale);
+                }
             }
+        }
 
-            if (popup.scaleDownDragging) {
-                float scale = Math.max(0.75f, percent);
-                DurX.putOn(popup.popupView)
-                        .pivotX(0.5f)
-                        .scale(scale);
+        @Override
+        public void onDraggedStarted(DraggableView draggableView, Direction direction) {
+            MaryPopup popup = reference.get();
+            if (popup != null) {
+                popup.close(false);
             }
         }
     }
-
-    @Override
-    public void onDraggedStarted(DraggableView draggableView, Direction direction) {
-        MaryPopup popup = reference.get();
-        if (popup != null) {
-            popup.close(false);
-        }
-    }
-}
 }
