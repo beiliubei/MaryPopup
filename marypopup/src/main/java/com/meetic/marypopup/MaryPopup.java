@@ -409,22 +409,8 @@ public class MaryPopup implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        if (cancellable && handleClick) {
+        if (cancellable) {
             close(scaleDownCloseOnClick);
-            try {
-                close(true);
-                if (blackOverlay != null) {
-                    activityView.removeView(blackOverlay);
-                    blackOverlay = null;
-                }
-                if (popupView != null) {
-                    activityView.removeView(popupView);
-                    popupView = null;
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            handleClick = false;
         }
     }
 
